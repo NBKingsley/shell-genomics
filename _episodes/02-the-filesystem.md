@@ -87,8 +87,7 @@ directory. `..` means go back up a level.
 * * * *
 **Exercise**
 
-Now we're going to try a hunt.  Find a hidden directory in dc_sample_data list its contents
-and file the text file in there.  What is the name of the file?
+Now we're going to try a hunt.  Find the hidden directory in dc_sample_data, list its contents, and identify the name of the text file in that directory.
 
 Hint: hidden files and folders in unix start with '.', for example .my_hidden_directory
 * * * *
@@ -111,7 +110,7 @@ Then enter the command:
     ls dc_sample_data
 
 This will list the contents of the `dc_sample_data` directory without
-you having to navigate there.
+your having to navigate there.
 
 The `cd` command works in a similar way.
 
@@ -123,11 +122,11 @@ Try entering:
 and you will jump directly to `untrimmed_fastq` without having to go through
 the intermediate directory.
 
-****
+* * * *
 **Exercise**
 
-List the 'SRR097977.fastq' file from your home directory without changing directories
-****
+List the contents of the directory containing the 'SRR097977.fastq' file. Do this from your home directory without leaving that directory.
+* * * *
 
 ## Full vs. Relative Paths
 
@@ -181,6 +180,30 @@ structure of the directories that you are using and how to quickly
 navigate amongst them.
 
 ***
+## Relative Path Resolution
+
+Using the filesystem diagram below, if `pwd` displays `/Users/thing`,
+what will `ls ../backup` display?
+
+1.  `../backup: No such file or directory`
+2.  `2012-12-01 2013-01-08 2013-01-27`
+3.  `2012-12-01/ 2013-01-08/ 2013-01-27/`
+4.  `original pnas_final pnas_sub`
+
+![File System for Challenge Questions](../fig/filesystem-challenge.svg)
+
+> ## Solution
+> 1. No: there *is* a directory `backup` in `/Users`.
+> 2. No: this is the content of `Users/thing/backup`,
+>    but with `..` we asked for one level further up.
+> 3. No: see previous explanation.
+>    Also, we did not specify `-F` to display `/` at the end of the directory names.
+> 4. Yes: `../backup` refers to `/Users/backup`.
+{: .solution}
+{: .challenge}
+***
+
+***
 **Exercise**
 
 Now, list the contents of the /bin directory. Do you see anything
@@ -189,9 +212,9 @@ How can you tell these are programs rather than plain files?
 
 ***
 
-## Saving time with shortcuts, wild cards, and tab completion
+## Saving time with navigation shortcuts and tab completion
 
-### Shortcuts
+### Navigational Shortcuts
 
 There are some shortcuts which you should know about. Dealing with the
 home directory is very common. So, in the shell the tilde character,
@@ -209,17 +232,20 @@ This prints the contents of your home directory, without you having to
 type the full path. 
 
 The shortcut `..` always refers to the directory
-above your current directory. Thus:
+above your current directory. 
+
+Thus:
 
     ls ..
 
-prints the contents of the `/home/dcuser/dc_sample_data`. You can chain
-these together, so:
+prints the contents of the `/home/dcuser/dc_sample_data` directory.
+
+You can chain these together like so:
 
     ls ../../
 
-prints the contents of `/home/dcuser` which is your home
-directory. Finally, the special directory `.` always refers to your
+prints the contents of `/home/dcuser` which is your home directory. 
+Finally, the special directory `.` always refers to your
 current directory. So, `ls`, `ls .`, and `ls ././././.` all do the
 same thing, they print the contents of the current directory. This may
 seem like a useless shortcut right now, but we'll see when it is
@@ -229,3 +255,35 @@ To summarize, while you are in the `shell` directory, the commands
 `ls ~`, `ls ~/.`, `ls ../../`, and `ls /home/dcuser` all do exactly the
 same thing. These shortcuts are not necessary, they are provided for
 your convenience.
+
+### Tab Completion
+
+Navigate to the home directory. Typing out directory names can waste a
+lot of time. When you start typing out the name of a directory, then
+hit the tab key, the shell will try to fill in the rest of the
+directory name.
+
+For example, type:
+
+`cd` 
+
+to get back to your home directy, then enter:
+
+    cd dc_<tab>
+
+The shell will fill in the rest of the directory name for
+`dc_sample_data`. Now go to dc_sample_data/untrimmed_fastq.
+
+Type:
+
+    ls SR<tab><tab>
+
+When you hit the first tab, nothing happens. The reason is that there
+are multiple directories in the home directory which start with
+`SR`. Thus, the shell does not know which one to fill in. When you hit
+tab again, the shell will list the possible choices.
+
+Tab completion can also fill in the names of programs. For example,
+enter `e<tab><tab>`. You will see the name of every program that
+starts with an `e`. One of those is `echo`. If you enter `ec<tab>` you
+will see that tab completion works.
